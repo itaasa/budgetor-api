@@ -1,4 +1,5 @@
 import { DbConnection } from "../db";
+import { getFirstDayOfYear, getLastDayOfYear } from "../utils/date-helper";
 import { BudgetType } from "./budget-type";
 import { TypeTotals } from "./type-totals";
 
@@ -8,6 +9,12 @@ export interface BudgetEntry {
     dateBought: string,
     type: BudgetType;
 }
+
+async function main() : Promise<void> {
+    console.log(getLastDayOfYear(new Date()));
+}
+
+main();
 
 const budgetEntryCollectionName = 'budgetEntries';
 

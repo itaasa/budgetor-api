@@ -39,3 +39,13 @@ export function getLastDayOfMonth(date: Date): Date {
 
     return lastDayOfMonth;
 }
+
+export function getFirstDayOfYear(date: Date): Date {
+    return new Date(date.getFullYear(), 0, 1);
+}
+
+export function getLastDayOfYear(date: Date): Date {
+    let december31st = new Date(date.getFullYear(), 11, 31);
+    december31st.setHours(23, 59, 59, 999);
+    return december31st;
+}
