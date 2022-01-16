@@ -1,6 +1,6 @@
 import { DbConnection } from "../db";
-import { getFirstDayOfWeek, getLastDayOfWeek } from "../utils/date-helper";
 import { BudgetType } from "./budget-type";
+import { getEndDate, getStartDate, Interval } from "./interval";
 
 export interface BudgetEntry {
     itemName: string,
@@ -11,17 +11,14 @@ export interface BudgetEntry {
 
 const budgetEntryCollectionName = 'budgetEntries';
 
-export async function getWeeklyBudgetEntries(date: Date) : Promise<BudgetEntry[]> {
+export async function getBudgetEntries(date: Date, interval: Interval) : Promise<BudgetEntry[]> {
 
-    console.log('start:' + date);
-    let startDate = getFirstDayOfWeek(date);
-    console.log('after start:' + date);
-    let endDate = getLastDayOfWeek(date);
-    console.log('after last:' + date);
-    return getBudgetEntries(startDate, endDate);
+    let startDate = getStartDate(date, interval);
+    let endDate = getEndDate(date, interval);
+    return await getBudgetEntriesByDate(startDate, endDate);
 }
 
-export async function getBudgetEntries(startDate: Date, endDate: Date) : Promise<BudgetEntry[]> {
+async function getBudgetEntriesByDate(startDate: Date, endDate: Date) : Promise<BudgetEntry[]> {
     try {
         let db = await new DbConnection().get();
         let results = await db.collection(budgetEntryCollectionName).find(
@@ -42,15 +39,6 @@ export async function insertBudgetEntry(budgetEntry: BudgetEntry) : Promise<void
     try {
         let db = await new DbConnection().get();
         let result = await db.collection(budgetEntryCollectionName).insertOne(budgetEntry);
-    } catch (e) {
-        throw(e);
-    }
-};
-
-export async function deleteAllBudgetEntries(): Promise<void> {
-    try {
-        let db = await new DbConnection().get();
-        await db.collection(budgetEntryCollectionName).deleteMany();
     } catch (e) {
         throw(e);
     }

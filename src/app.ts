@@ -1,9 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-
-import { BudgetEntry, getBudgetEntries, getWeeklyBudgetEntries } from './models/budget-entry';
-import { getFirstDayOfWeek, getLastDayOfWeek } from './utils/date-helper';
-import { BudgetType } from './models/budget-type';
+import { getBudgetEntries } from './models/budget-entry';
 
 let app = express();
 app.use(bodyParser.json());
@@ -12,13 +9,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 let router = express.Router();
 
-router.get('/budget-entries', async (req: any, res) => {
+router.get('/budget-entry', async (req: any, res) => {
 
     let date = new Date(req.query.date);
-    let budgetEntries = await getWeeklyBudgetEntries(date);
+    let interval = req.query.interval;
+
+    let budgetEntries = await getBudgetEntries(date, interval);
 
     res.send(budgetEntries);
 });
+
+router.post('')
 
 app.use(router);
 app.listen(5001);

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -watch",
+    "build:watch": "tsc --watch",
+    "build": "tsc",
     "test": "npm run build; jest"
   },
   "author": "",
