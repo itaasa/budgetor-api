@@ -2,27 +2,38 @@ import { getFirstDayOfMonth, getFirstDayOfWeek, getLastDayOfMonth, getLastDayOfW
 import { BudgetEntry, getBudgetEntries } from "./budget-entry";
 import { BudgetType } from "./budget-type";
 import * as _ from 'lodash';
+import { forEach } from "lodash";
 
 async function main() : Promise<void> {
 
-    let testDateString = '01/16/2022';
+    let testDateString = '01/07/2022';
     let startDate = getFirstDayOfWeek(new Date(testDateString));
     let endDate = getLastDayOfWeek(new Date(testDateString));
     let budgetEntries = await getBudgetEntries(startDate, endDate);
 
-    console.log(
-        groupBudgetEntriesByTotal(budgetEntries)
-    );
+    let typeTotals = getTypeTotalsFromBudgetEntries(budgetEntries);
+    console.log(typeTotals);
 }
 
 main();
 
-export interface TypeTotals {
+export interface TypeTotal {
     type: BudgetType,
     total: number,
 };
 
-function groupBudgetEntriesByTotal(budgetEntries: BudgetEntry[]){
+function getTypeTotalsFromBudgetEntries(budgetEntries: BudgetEntry[]): TypeTotal[] {
+    let groupedBudgetEntries = groupBudgetEntriesByTypeSummingByPrice(budgetEntries);
+
+    return groupedBudgetEntries.map( value => {
+        return <TypeTotal>{
+            type: value.type,
+            total: value.total,
+        }
+    });
+}
+
+function groupBudgetEntriesByTypeSummingByPrice(budgetEntries: BudgetEntry[]): any[] {
     return _.chain(budgetEntries)
             .groupBy((budgetEntry: BudgetEntry) => budgetEntry.type)
             .map((value, key: BudgetType) => (
