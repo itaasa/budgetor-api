@@ -1,33 +1,35 @@
 export function getFirstDayOfWeek(date: Date): Date {
+    let newDate = new Date(date);
     let dayOfTheWeek = date.getDay();
     
-    date.setDate(date.getDate() - dayOfTheWeek);
+    newDate.setDate(newDate.getDate() - dayOfTheWeek);
 
-    date.setHours(0,0,0,0);
+    newDate.setHours(0,0,0,0);
 
-    return date;
+    return newDate;
 }
 
 export function getLastDayOfWeek(date: Date): Date {
+    let newDate = new Date(date);
     let dayOfTheWeek = date.getDay();
-
     let offsetDays = 6 - (dayOfTheWeek % 7);
 
-    date.setDate(date.getDate() + offsetDays);
+    newDate.setDate(newDate.getDate() + offsetDays);
 
-    date.setHours(23 , 59, 59, 999);
+    newDate.setHours(23 , 59, 59, 999);
 
-    return date;
+    return newDate;
 }
 
 export function getFirstDayOfMonth(date: Date): Date {
+    let newDate = new Date(date);
     let dayOfTheMonth = date.getDate();
     
-    date.setDate(date.getDate() - (dayOfTheMonth - 1));
+    newDate.setDate(newDate.getDate() - (dayOfTheMonth - 1));
     
-    date.setHours(0,0,0,0);
+    newDate.setHours(0,0,0,0);
 
-    return date;
+    return newDate;
 }
 
 export function getLastDayOfMonth(date: Date): Date {

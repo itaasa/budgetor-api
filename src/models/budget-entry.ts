@@ -13,9 +13,11 @@ const budgetEntryCollectionName = 'budgetEntries';
 
 export async function getWeeklyBudgetEntries(date: Date) : Promise<BudgetEntry[]> {
 
+    console.log('start:' + date);
     let startDate = getFirstDayOfWeek(date);
+    console.log('after start:' + date);
     let endDate = getLastDayOfWeek(date);
-
+    console.log('after last:' + date);
     return getBudgetEntries(startDate, endDate);
 }
 
