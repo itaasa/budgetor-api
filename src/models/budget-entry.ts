@@ -11,63 +11,6 @@ export interface BudgetEntry {
 
 const budgetEntryCollectionName = 'budgetEntries';
 
-export async function insertBudgetEntry(budgetEntry: BudgetEntry) : Promise<void>{
-    try {
-        let db = await new DbConnection().get();
-        let result = await db.collection(budgetEntryCollectionName).insertOne(budgetEntry);
-    } catch (e) {
-        console.log(e);
-    }
-}
-
-export async function deleteAllBudgetEntries(): Promise<void> {
-    try {
-        let db = await new DbConnection().get();
-        await db.collection(budgetEntryCollectionName).deleteMany();
-    } catch (e) {
-        throw(e);
-    }
-}
-
-function startOfWeek(date: Date): Date {
-    date = getDateinEST(date);
-    console.log(date);
-    date = setTimeToZero(date);
-    console.log(date);
-    date = getDateinEST(date);
-    console.log(date);
-
-    var diff = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
-    return new Date(date.setDate(diff));
-}
-
-function getDateinEST(date: Date): Date {
-    const estOffset = -5.0;
-    return new Date(date.getTime() + (3600000 * estOffset));
-}
-
-function setTimeToZero(date: Date): Date {
-    date.setHours(0,0,0,0);
-    return date;
-}
-
-export async function getWeeklyBudgetEntries(date: Date): Promise<BudgetEntry[]> {
-    let startDate = startOfWeek(date);
-    let endDate = new Date();
-    endDate.setDate(startDate.getDate() + 6);
-
-    // console.log(startDate);
-    // console.log(endDate);
-    return [];
-}
-
-async function main() : Promise<void> {
-    await getWeeklyBudgetEntries(new Date());
-}
-
-main();
-
-
 async function getBudgetEntries(startDate: Date, endDate: Date) : Promise<BudgetEntry[]> {
     try {
         let db = await new DbConnection().get();
@@ -85,12 +28,22 @@ async function getBudgetEntries(startDate: Date, endDate: Date) : Promise<Budget
     }
 }
 
+export async function insertBudgetEntry(budgetEntry: BudgetEntry) : Promise<void>{
+    try {
+        let db = await new DbConnection().get();
+        let result = await db.collection(budgetEntryCollectionName).insertOne(budgetEntry);
+    } catch (e) {
+        console.log(e);
+    }
+}
 
-function isBetweenMonth(entryDate: Date): boolean {
-    let entryDateTime = new Date(entryDate).getTime();
-    
-    return entryDateTime >= new Date('01/01/2022').getTime()
-    && entryDateTime <= new Date('01/31/2022').getTime();
+export async function deleteAllBudgetEntries(): Promise<void> {
+    try {
+        let db = await new DbConnection().get();
+        await db.collection(budgetEntryCollectionName).deleteMany();
+    } catch (e) {
+        throw(e);
+    }
 }
 
 function displayBudgetEntryTotals(budgetEntries: BudgetEntry[]): void {
