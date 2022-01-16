@@ -1,12 +1,17 @@
 async function main() : Promise<void> {
-    console.log(startOfWeek(new Date()));
+    console.log(getSundayOf(new Date()));
 }
 
 main();
 
-function startOfWeek(date: Date): Date {
+function getSundayOf(date: Date): Date {
     let dateAtMidnight = getDateAtMidnight(date);
+    console.log(dateAtMidnight.getDay())
     return dateAtMidnight;
+}
+
+function endOfWeek(date: Date): Date {
+    return date;
 }
 
 function getDateAtMidnight(date: Date): Date {

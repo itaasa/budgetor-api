@@ -6,8 +6,3 @@
         >Create a node server that sends over view models to front end
         >TotalsViewModel
 */
-
-async function main(): Promise<void> {
-}
-
-main();
