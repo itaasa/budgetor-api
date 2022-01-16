@@ -1,17 +1,17 @@
 async function main() : Promise<void> {
+    console.log(startOfWeek(new Date()));
 }
+
 main();
 
 function startOfWeek(date: Date): Date {
-    date = getDateinEST(date);
-    console.log(date);
-    date = setTimeToZero(date);
-    console.log(date);
-    date = getDateinEST(date);
-    console.log(date);
+    let dateAtMidnight = getDateAtMidnight(date);
+    return dateAtMidnight;
+}
 
-    var diff = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
-    return new Date(date.setDate(diff));
+function getDateAtMidnight(date: Date): Date {
+    let dateAtMidnight = setTimeToZero(date);
+    return getDateinEST(dateAtMidnight);
 }
 
 function getDateinEST(date: Date): Date {
