@@ -1,0 +1,5 @@
+{
+    "mongoUsername": "",
+    "mongoPassword": "",
+    "mongoClusterUrl": ""
+}

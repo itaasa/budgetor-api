@@ -1,0 +1,19 @@
+{
+  "name": "budgetor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^3.3.7",
+    "csv-parser": "^3.0.0",
+    "mongodb": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/config": "^0.0.41"
+  }
+}
