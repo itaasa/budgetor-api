@@ -1,5 +1,5 @@
 import { DbConnection } from "../db";
-import { getFirstDayOfYear, getLastDayOfYear } from "../utils/date-helper";
+import { getFirstDayOfWeek, getFirstDayOfYear, getLastDayOfWeek, getLastDayOfYear } from "../utils/date-helper";
 import { BudgetType } from "./budget-type";
 import { TypeTotals } from "./type-totals";
 
@@ -11,14 +11,14 @@ export interface BudgetEntry {
 }
 
 async function main() : Promise<void> {
-    console.log(getLastDayOfYear(new Date()));
+    
 }
 
 main();
 
 const budgetEntryCollectionName = 'budgetEntries';
 
-async function getBudgetEntries(startDate: Date, endDate: Date) : Promise<BudgetEntry[]> {
+export async function getBudgetEntries(startDate: Date, endDate: Date) : Promise<BudgetEntry[]> {
     try {
         let db = await new DbConnection().get();
         let results = await db.collection(budgetEntryCollectionName).find(
@@ -28,7 +28,7 @@ async function getBudgetEntries(startDate: Date, endDate: Date) : Promise<Budget
                     $lte: endDate.toISOString(),
                 }
             }
-        );
+        ).sort( { dateBought: -1 });
         return await results.toArray();
     } catch (e) {
         throw(e);
@@ -40,7 +40,7 @@ export async function insertBudgetEntry(budgetEntry: BudgetEntry) : Promise<void
         let db = await new DbConnection().get();
         let result = await db.collection(budgetEntryCollectionName).insertOne(budgetEntry);
     } catch (e) {
-        console.log(e);
+        throw(e);
     }
 }
 
