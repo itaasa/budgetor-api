@@ -46,6 +46,8 @@ export function getFirstDayOfYear(date: Date): Date {
 
 export function getLastDayOfYear(date: Date): Date {
     let december31st = new Date(date.getFullYear(), 11, 31);
+
     december31st.setHours(23, 59, 59, 999);
+    
     return december31st;
 }
