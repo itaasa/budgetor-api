@@ -1,11 +1,4 @@
-async function main() : Promise<void> {
-    console.log(getSaturdayOfDate(new Date()));
-    console.log(getSundayOfDate(new Date()));
-}
-
-main();
-
-function getSundayOfDate(date: Date): Date {
+export function getFirstDayOfWeek(date: Date): Date {
     let dayOfTheWeek = date.getDay();
     
     date.setDate(date.getDate() - dayOfTheWeek);
@@ -15,7 +8,7 @@ function getSundayOfDate(date: Date): Date {
     return date;
 }
 
-function getSaturdayOfDate(date: Date): Date {
+export function getLastDayOfWeek(date: Date): Date {
     let dayOfTheWeek = date.getDay();
 
     let offsetDays = 6 - (dayOfTheWeek % 7);
@@ -27,11 +20,22 @@ function getSaturdayOfDate(date: Date): Date {
     return date;
 }
 
-function getSundayOfTheMonth(date: Date): Date {
-
-}
-
-function getFirstDayOfMonth(date: Date): Date {
+export function getFirstDayOfMonth(date: Date): Date {
+    let dayOfTheMonth = date.getDate();
     
+    date.setDate(date.getDate() - (dayOfTheMonth - 1));
+    
+    date.setHours(0,0,0,0);
+
+    return date;
 }
 
+export function getLastDayOfMonth(date: Date): Date {
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    let lastDayOfMonth = new Date(year, month, 0);
+    lastDayOfMonth.setHours(23, 59, 59, 999);
+
+    return lastDayOfMonth;
+}
