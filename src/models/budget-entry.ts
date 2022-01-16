@@ -1,4 +1,5 @@
 import { DbConnection } from "../db";
+import { getFirstDayOfWeek, getLastDayOfWeek } from "../utils/date-helper";
 import { BudgetType } from "./budget-type";
 
 export interface BudgetEntry {
@@ -9,6 +10,14 @@ export interface BudgetEntry {
 }
 
 const budgetEntryCollectionName = 'budgetEntries';
+
+export async function getWeeklyBudgetEntries(date: Date) : Promise<BudgetEntry[]> {
+
+    let startDate = getFirstDayOfWeek(date);
+    let endDate = getLastDayOfWeek(date);
+
+    return getBudgetEntries(startDate, endDate);
+}
 
 export async function getBudgetEntries(startDate: Date, endDate: Date) : Promise<BudgetEntry[]> {
     try {

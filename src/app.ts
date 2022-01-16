@@ -1,7 +1,23 @@
-/*
-    3. Unit test everything
-    4. Create api, server        
-    5. Create front end in Angular, incorporate store
-        >Create a node server that sends over view models to front end
-        >TotalsViewModel
-*/
+import express from 'express';
+import bodyParser from 'body-parser';
+
+import { getBudgetEntries, getWeeklyBudgetEntries } from './models/budget-entry';
+import { getFirstDayOfWeek, getLastDayOfWeek } from './utils/date-helper';
+
+let app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+let router = express.Router();
+
+router.get('/budget-entries', async (req: any, res) => {
+
+    let date = new Date(req.query.date);
+    let budgetEntries = await getWeeklyBudgetEntries(date);
+    
+    res.send(budgetEntries);
+});
+
+app.use(router);
+app.listen(5001);
