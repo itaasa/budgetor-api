@@ -20,7 +20,7 @@ export function getStartDate(date: Date, interval: Interval) : Date {
         return getFirstDayOfYear(date);
     }
 
-    return new Date();
+    return new Date('01/01/1900');
 };
 
 export function getEndDate(date: Date, interval: Interval) : Date {
@@ -36,5 +36,7 @@ export function getEndDate(date: Date, interval: Interval) : Date {
         return getLastDayOfYear(date);
     }
 
-    return new Date();
+    let endOfTime = new Date('12/31/9999')
+    endOfTime.setHours(23, 59, 59, 999);
+    return endOfTime;
 }
