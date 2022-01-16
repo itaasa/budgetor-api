@@ -15,7 +15,7 @@ export function getLastDayOfWeek(date: Date): Date {
 
     date.setDate(date.getDate() + offsetDays);
 
-    date.setHours(23, 59, 59, 999);
+    date.setHours(23 , 59, 59, 999);
 
     return date;
 }

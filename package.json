@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "npm run build; jest"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,9 @@
   },
   "devDependencies": {
     "@types/config": "^0.0.41",
-    "@types/lodash": "^4.14.178"
+    "@types/jest": "^27.4.0",
+    "@types/lodash": "^4.14.178",
+    "jest": "^27.4.7",
+    "ts-jest": "^27.1.3"
   }
 }
