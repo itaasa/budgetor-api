@@ -1,4 +1,4 @@
-import * as dateHelper from '../../src/utils/date-helper';
+import * as dateHelper from './date-helper';
 
 const mockDate = new Date('06/09/2022');
 
