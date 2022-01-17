@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { BudgetEntry, createBudgetEntry, getBudgetEntries } from './models/budget-entry';
+import { getTypeTotalsFromBudgetEntries } from './models/type-totals';
 
 let app = express();
 app.use(bodyParser.json());
@@ -40,6 +41,11 @@ router.post('/budget-entry', async (req: any, res) => {
 router.get('/type-totals', async (req: any, res) => {
     let date = new Date(req.query.date);
     let interval = req.query.interval;
+
+    let budgetEntries = await getBudgetEntries(date, interval);
+    let typeTotals = await getTypeTotalsFromBudgetEntries(budgetEntries);
+
+    return res.send(typeTotals);
 });
 
 app.use(router);
