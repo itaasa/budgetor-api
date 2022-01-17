@@ -37,7 +37,6 @@ router.post('/budget-entry', async (req: any, res) => {
 });
 
 // Type Totals Controller
-
 router.get('/type-totals', async (req: any, res) => {
     let date = new Date(req.query.date);
     let interval = req.query.interval;
