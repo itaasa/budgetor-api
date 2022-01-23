@@ -1,11 +1,20 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+
 import { BudgetEntry, createBudgetEntry, getBudgetEntries } from './models/budget-entry';
 import { getTypeTotalsFromBudgetEntries } from './models/type-totals';
 
 let app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+    // Website you wish to allow to connect, alter this once this goes live.
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+});
 
 let router = express.Router();
 
@@ -26,7 +35,7 @@ router.post('/budget-entry', async (req: any, res) => {
         itemName: req.body.itemName,
         price: req.body.price,
         type: req.body.type,
-        dateBought: new Date().toISOString(),
+        dateBought: req.body.dateBought,
     }
 
     let newBudgetEntryId = await createBudgetEntry(newBudgetEntry);
