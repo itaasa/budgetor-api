@@ -38,8 +38,7 @@ async function getBudgetEntriesByDate(startDate: Date, endDate: Date) : Promise<
 export async function createBudgetEntry(budgetEntry: BudgetEntry) : Promise<string>{
     try {
         let db = await new DbConnection().get();
-        let result = await db.collection(budgetEntryCollectionName).insertOne(budgetEntry);
-        return result.insertedId;
+        return await db.collection(budgetEntryCollectionName).insertOne(budgetEntry);
     } catch (e) {
         throw(e);
     }

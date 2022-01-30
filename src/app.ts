@@ -31,18 +31,18 @@ router.get('/budget-entry', async (req: any, res) => {
 });
 
 router.post('/budget-entry', async (req: any, res) => {
-    let newBudgetEntry: BudgetEntry = {
+    let budgetEntry: BudgetEntry = {
         itemName: req.body.itemName,
         price: req.body.price,
         type: req.body.type,
         dateBought: req.body.dateBought,
     }
 
-    let newBudgetEntryId = await createBudgetEntry(newBudgetEntry);
+    let insertedId = await createBudgetEntry(budgetEntry);
     
-    console.log(`Created new budget entry with id: ${newBudgetEntryId}`);
+    console.log(`Created new budget entry with id: ${insertedId}`);
 
-    res.send(newBudgetEntryId);
+    res.send(insertedId);
 });
 
 // Type Totals Controller
