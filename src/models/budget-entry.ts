@@ -1,5 +1,6 @@
 import { DbConnection } from "../db";
 import { BudgetType } from "./budget-type";
+import { getEndDate, getStartDate, Interval } from "./interval";
 
 export interface BudgetEntry {
     itemName: string,
@@ -10,7 +11,14 @@ export interface BudgetEntry {
 
 const budgetEntryCollectionName = 'budgetEntries';
 
-export async function getBudgetEntries(startDate: Date, endDate: Date) : Promise<BudgetEntry[]> {
+export async function getBudgetEntries(date: Date, interval: Interval) : Promise<BudgetEntry[]> {
+
+    let startDate = getStartDate(date, interval);
+    let endDate = getEndDate(date, interval);
+    return await getBudgetEntriesByDate(startDate, endDate);
+}
+
+async function getBudgetEntriesByDate(startDate: Date, endDate: Date) : Promise<BudgetEntry[]> {
     try {
         let db = await new DbConnection().get();
         let results = await db.collection(budgetEntryCollectionName).find(
@@ -27,19 +35,10 @@ export async function getBudgetEntries(startDate: Date, endDate: Date) : Promise
     }
 };
 
-export async function insertBudgetEntry(budgetEntry: BudgetEntry) : Promise<void>{
+export async function createBudgetEntry(budgetEntry: BudgetEntry) : Promise<string>{
     try {
         let db = await new DbConnection().get();
-        let result = await db.collection(budgetEntryCollectionName).insertOne(budgetEntry);
-    } catch (e) {
-        throw(e);
-    }
-};
-
-export async function deleteAllBudgetEntries(): Promise<void> {
-    try {
-        let db = await new DbConnection().get();
-        await db.collection(budgetEntryCollectionName).deleteMany();
+        return await db.collection(budgetEntryCollectionName).insertOne(budgetEntry);
     } catch (e) {
         throw(e);
     }
