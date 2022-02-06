@@ -1,8 +1,10 @@
+import { ObjectId } from "mongodb";
 import { DbConnection } from "../db";
 import { BudgetType } from "./budget-type";
 import { getEndDate, getStartDate, Interval } from "./interval";
 
 export interface BudgetEntry {
+    id?: string,
     itemName: string,
     price: number,
     dateBought: string,
@@ -41,5 +43,17 @@ export async function createBudgetEntry(budgetEntry: BudgetEntry) : Promise<stri
         return await db.collection(budgetEntryCollectionName).insertOne(budgetEntry);
     } catch (e) {
         throw(e);
+    }
+};
+
+export async function updateBudgetEntry(budgetEntry: BudgetEntry) : Promise<string>{
+    const editQuery = { _id: new ObjectId(budgetEntry.id) };
+    const updateBudgetEntryQuery = { $set: budgetEntry };
+
+    try {
+        let db = await new DbConnection().get();
+        return await db.collection(budgetEntryCollectionName).updateOne(editQuery, updateBudgetEntryQuery);
+    } catch (e) {
+        throw (e);
     }
 };
