@@ -57,3 +57,14 @@ export async function updateBudgetEntry(budgetEntry: BudgetEntry) : Promise<stri
         throw (e);
     }
 };
+
+export async function deleteBudgetEntry(deleteId: string) : Promise<string> {
+    const deleteQuery = { _id: new ObjectId(deleteId) };
+    
+    try {
+        let db = await new DbConnection().get();
+        return await db.collection(budgetEntryCollectionName).deleteOne(deleteQuery);
+    } catch (e) {
+        throw (e);
+    }
+}
