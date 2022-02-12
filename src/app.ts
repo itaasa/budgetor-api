@@ -12,6 +12,7 @@ app.use((req, res, next) => {
     // Website you wish to allow to connect, alter this once this goes live.
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Methods', '*');
 
     next();
 });
@@ -42,7 +43,7 @@ router.post('/budget-entry', async (req: any, res) => {
 
 router.put('/budget-entry', async (req: any, res) => {
     let budgetEntry: BudgetEntry = req.body;
-
+    
     let updatedId = await updateBudgetEntry(budgetEntry);
     console.log(`Update budget entry with id: ${budgetEntry.id}`);
 
