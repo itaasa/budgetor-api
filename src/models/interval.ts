@@ -41,13 +41,13 @@ export function getEndDate(date: Date, interval: Interval) : Date {
     return endOfTime;
 }
 
-export function convertMaxTotalToInterval(interval: Interval, weeklyTotalMax: number) : number{
+export function convertWeeklyTotalMaxToInterval(interval: Interval, weeklyTotalMax: number) : number{
     if (interval === Interval.Monthly) {
         return weeklyTotalMax * 4;
     }
 
     if (interval === Interval.Yearly) {
-        return weeklyTotalMax * 52;
+        return weeklyTotalMax * 48;
     }
 
     return weeklyTotalMax;

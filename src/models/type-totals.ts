@@ -1,7 +1,7 @@
 import { BudgetEntry, getBudgetEntries } from "./budget-entry";
 import { BudgetType } from "./budget-type";
 import _ from 'lodash';
-import { convertMaxTotalToInterval, Interval } from "./interval";
+import { convertWeeklyTotalMaxToInterval, Interval } from "./interval";
 import { getUser } from "./user";
 
 export interface TypeTotal {
@@ -27,7 +27,7 @@ export async function getTypeTotalViewModelsFromBudgetEntries(budgetEntries: Bud
         let typeTotalViewModel: TypeTotalViewModel = {
             type: typeTotalsWithWeeklyMax.type,
             total: typeTotalsWithWeeklyMax.total,
-            maxTotal: convertMaxTotalToInterval(interval, typeTotalsWithWeeklyMax.weeklyMax),
+            maxTotal: convertWeeklyTotalMaxToInterval(interval, typeTotalsWithWeeklyMax.weeklyMax),
         }
 
         typeTotalsViewModels.push(typeTotalViewModel);
