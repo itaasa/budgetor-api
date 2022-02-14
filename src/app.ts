@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import { BudgetEntry, createBudgetEntry, deleteBudgetEntry, getBudgetEntries, updateBudgetEntry } from './models/budget-entry';
-import { getTypeTotalsFromBudgetEntries } from './models/type-totals';
+import { getTypeTotalsFromBudgetEntries, getTypeTotalViewModelsFromBudgetEntries } from './models/type-totals';
 
 let app = express();
 app.use(bodyParser.json());
@@ -61,6 +61,16 @@ router.get('/type-totals', async (req: any, res) => {
     let typeTotals = await getTypeTotalsFromBudgetEntries(budgetEntries);
  
     return res.send(typeTotals);
+});
+
+router.get('/type-totals-max', async (req: any, res) => {
+    let date = new Date(req.query.date);
+    let interval = req.query.interval;
+
+    let budgetEntries = await getBudgetEntries(date, interval);
+    let typeTotalViewModels = await getTypeTotalViewModelsFromBudgetEntries(budgetEntries, interval);
+
+    return res.send(typeTotalViewModels);
 });
 
 app.use(router);
