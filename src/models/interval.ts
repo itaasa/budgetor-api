@@ -40,3 +40,15 @@ export function getEndDate(date: Date, interval: Interval) : Date {
     endOfTime.setHours(23, 59, 59, 999);
     return endOfTime;
 }
+
+export function convertWeeklyTotalMaxToInterval(interval: Interval, weeklyTotalMax: number) : number{
+    if (interval === Interval.Monthly) {
+        return weeklyTotalMax * 4;
+    }
+
+    if (interval === Interval.Yearly) {
+        return weeklyTotalMax * 48;
+    }
+
+    return weeklyTotalMax;
+};
