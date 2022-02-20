@@ -12,6 +12,10 @@ export interface User {
 };
 
 const userCollectionName = 'users';
+const CRYPTO_ITERATIONS = 1000;
+const CRYPTO_KEYLEN = 64;
+const CRYPTO_DIGEST = 'sha512';
+const CRYPTO_RANDOM_BYTES = 16;
 
 export async function getUser() : Promise <User> {
     try {
@@ -49,11 +53,11 @@ export async function createUser(user: User) : Promise<string> {
 }
 
 export async function isValidPassword(user: User, password: string) : Promise<boolean> {
-    const hash = crypto.pbkdf2Sync(password, user.salt, 1000, 64, 'sha512').toString('hex');
+    const hash = crypto.pbkdf2Sync(password, user.salt, CRYPTO_ITERATIONS, CRYPTO_KEYLEN, CRYPTO_DIGEST).toString('hex');
     return user.hash === hash;
 }
 
 export async function setPassword(user: User, password: string) : Promise<void> {
-    user.salt = crypto.randomBytes(16).toString('hex');
-    user.hash = crypto.pbkdf2Sync(password, user.salt, 1000, 64, 'sha512').toString('hex');
+    user.salt = crypto.randomBytes(CRYPTO_RANDOM_BYTES).toString('hex');
+    user.hash = crypto.pbkdf2Sync(password, user.salt, CRYPTO_ITERATIONS, CRYPTO_KEYLEN, CRYPTO_DIGEST).toString('hex');
 }
