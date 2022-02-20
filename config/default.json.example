@@ -1,5 +1,6 @@
 {
     "mongoUsername": "",
     "mongoPassword": "",
-    "mongoClusterUrl": ""
+    "mongoClusterUrl": "",
+    "jwtSecret": "",
 }

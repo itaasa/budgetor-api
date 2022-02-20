@@ -23,5 +23,6 @@ const mockUser: User = {
     ],
     email: "",
     hash: "",
-    salt: ""
+    salt: "",
+    id: "",
 };
