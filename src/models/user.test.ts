@@ -18,7 +18,10 @@ const mockUser: User = {
         },
         {
             type: BudgetType.Groceries,
-            weeklyMax: 100.00 ,
+            weeklyMax: 100.00,
         },
     ],
+    email: "",
+    hash: "",
+    salt: ""
 };

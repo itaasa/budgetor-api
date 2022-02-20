@@ -1,11 +1,14 @@
 import { ObjectId } from "mongodb";
 import { DbConnection } from "../db";
-import { BudgetType } from "./budget-type";
 import { TypeMax } from "./type-max";
+import * as crypto from "crypto";
 
 export interface User {
     name: string,
     typeMaxes: TypeMax[],
+    email: string,
+    hash: string,
+    salt: string,
 };
 
 const userCollectionName = 'users';
@@ -43,4 +46,14 @@ export async function createUser(user: User) : Promise<string> {
     } catch (e) {
         throw(e);
     }
+}
+
+export async function isValidPassword(user: User, password: string) : Promise<boolean> {
+    const hash = crypto.pbkdf2Sync(password, user.salt, 1000, 64, 'sha512').toString('hex');
+    return user.hash === hash;
+}
+
+export async function setPassword(user: User, password: string) : Promise<void> {
+    user.salt = crypto.randomBytes(16).toString('hex');
+    user.hash = crypto.pbkdf2Sync(password, user.salt, 1000, 64, 'sha512').toString('hex');
 }
