@@ -2,7 +2,14 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-import { BudgetEntry, createBudgetEntry, deleteBudgetEntry, getBudgetEntries, updateBudgetEntry } from './models/budget-entry';
+import {
+  BudgetEntry,
+  createBudgetEntries,
+  createBudgetEntry,
+  deleteBudgetEntry,
+  getBudgetEntries,
+  updateBudgetEntry,
+} from './models/budget-entry';
 import { getTypeTotalsFromBudgetEntries, getTypeTotalViewModelsFromBudgetEntries } from './models/type-totals';
 
 let app = express();
@@ -14,63 +21,69 @@ let router = express.Router();
 
 // Budget Entry Controller
 router.get('/budget-entry', async (req: any, res) => {
-    let date = new Date(req.query.date);
-    let interval = req.query.interval;
+  let date = new Date(req.query.date);
+  let interval = req.query.interval;
 
-    let budgetEntries = await getBudgetEntries(date, interval);
+  let budgetEntries = await getBudgetEntries(date, interval);
 
-    console.log(`Getting budget entries ${interval} for date ${date}`);
+  console.log(`Getting budget entries ${interval} for date ${date}`);
 
-    res.send(budgetEntries);
+  res.send(budgetEntries);
 });
 
 router.post('/budget-entry', async (req: any, res) => {
-    let budgetEntry: BudgetEntry = req.body;
+  let budgetEntry: BudgetEntry = req.body;
 
-    let insertedId = await createBudgetEntry(budgetEntry);
-    
-    console.log(`Created new budget entry with id: ${insertedId}`);
+  let insertedId = await createBudgetEntry(budgetEntry);
 
-    res.send(insertedId);
+  console.log(`Created new budget entry with id: ${insertedId}`);
+
+  res.send(insertedId);
+});
+
+router.post('/budget-entries', async (req: any, res) => {
+  let budgetEntries: BudgetEntry[] = req.body;
+
+  await createBudgetEntries(budgetEntries);
 });
 
 router.put('/budget-entry', async (req: any, res) => {
-    let budgetEntry: BudgetEntry = req.body;
-    
-    let updatedId = await updateBudgetEntry(budgetEntry);
-    console.log(`Update budget entry with id: ${budgetEntry.id}`);
+  let budgetEntry: BudgetEntry = req.body;
 
-    res.send(updatedId);
+  let updatedId = await updateBudgetEntry(budgetEntry);
+  console.log(`Update budget entry with id: ${budgetEntry.id}`);
+
+  res.send(updatedId);
 });
 
 router.delete('/budget-entry/:id', async (req: any, res) => {
-    let deleteId: string = req.params.id;
+  let deleteId: string = req.params.id;
 
-    let result = await deleteBudgetEntry(deleteId);
-    console.log(`Deleted budget entry with id: ${deleteId}`);
+  let result = await deleteBudgetEntry(deleteId);
+  console.log(`Deleted budget entry with id: ${deleteId}`);
 
-    res.send(result);
+  res.send(result);
 });
 
 // Type Totals Controller
 router.get('/type-totals', async (req: any, res) => {
-    let date = new Date(req.query.date);
-    let interval = req.query.interval;
+  let date = new Date(req.query.date);
+  let interval = req.query.interval;
 
-    let budgetEntries = await getBudgetEntries(date, interval);
-    let typeTotals = await getTypeTotalsFromBudgetEntries(budgetEntries);
- 
-    return res.send(typeTotals);
+  let budgetEntries = await getBudgetEntries(date, interval);
+  let typeTotals = await getTypeTotalsFromBudgetEntries(budgetEntries);
+
+  return res.send(typeTotals);
 });
 
 router.get('/type-totals-max', async (req: any, res) => {
-    let date = new Date(req.query.date);
-    let interval = req.query.interval;
+  let date = new Date(req.query.date);
+  let interval = req.query.interval;
 
-    let budgetEntries = await getBudgetEntries(date, interval);
-    let typeTotalViewModels = await getTypeTotalViewModelsFromBudgetEntries(budgetEntries, interval);
+  let budgetEntries = await getBudgetEntries(date, interval);
+  let typeTotalViewModels = await getTypeTotalViewModelsFromBudgetEntries(budgetEntries, interval);
 
-    return res.send(typeTotalViewModels);
+  return res.send(typeTotalViewModels);
 });
 
 app.use(router);
